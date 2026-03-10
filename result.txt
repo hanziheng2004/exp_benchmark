@@ -1,0 +1,108 @@
+========================================
+ARM Cortex-M4 EXP Benchmark
+Architecture: ARM Cortex-M4 (No FPU)
+Test Count: 1000
+Pure Fixed-Point Implementation
+Reference: PC high precision (pre-computed)
+========================================
+
+Algorithm Implementations:
+  CMSIS-NN: cmsis_nn_exp_q524()
+    - Input: Q5.24 (int32_t)
+    - Output: Q16.16 (int32_t)
+    - Pure fixed-point, no float
+
+  CORDIC: cordic_exp_q24()
+    - Input: Q24 (int32_t)
+    - Output: Q24 (int32_t)
+    - Pure fixed-point, no float
+
+  Haetae: haetae_exp_q16()
+    - Input: Q16.16 (int32_t)
+    - Output: Q16.16 (int32_t)
+    - Pure fixed-point, no float
+
+========================================
+Test 1: CMSIS-NN (Pure Fixed-Point)
+========================================
+
+CMSIS-NN Results:
+  Time: 0.0028 seconds
+  Avg Cycles: 77
+  Max Relative Error: 0.1368%
+  Avg Relative Error: 0.0236%
+
+========================================
+Test 2: CORDIC (Pure Fixed-Point)
+========================================
+
+CORDIC Results:
+  Time: 0.0031 seconds
+  Avg Cycles: 312
+  Max Relative Error: 0.1970%
+  Avg Relative Error: 0.1846%
+
+========================================
+Test 3: Haetae (Pure Fixed-Point)
+========================================
+
+Haetae Results:
+  Time: 0.0026 seconds
+  Avg Cycles: 100
+  Max Relative Error: 0.0898%
+  Avg Relative Error: 0.0264%
+
+========================================
+Summary Comparison
+========================================
+
+Algorithm    Avg Cycles    Max Error    Avg Error      Time(s)
+----------------------------------------------------------------
+CMSIS-NN             77      0.1368%      0.0236%       0.0028
+CORDIC              312      0.1970%      0.1846%       0.0031
+Haetae              100      0.0898%      0.0264%       0.0026
+
+========================================
+Sample Values Comparison
+========================================
+
+       x     Expected     CMSIS-NN       CORDIC       Haetae
+------------------------------------------------------------
+   -5.00     0.006738     0.006714     0.006744     0.006729
+   -4.00     0.018316     0.018311     0.018341     0.018326
+   -3.00     0.049787     0.049789     0.049881     0.049805
+   -2.00     0.135335     0.135361     0.135590     0.135376
+   -1.00     0.367879     0.367859     0.368591     0.367874
+   -0.50     0.606531     0.606522     0.607712     0.606537
+    0.00     1.000000     1.000015     0.998032     1.000000
+    0.50     1.648721     1.648743     1.645493     1.648697
+    1.00     2.718282     2.718307     2.712952     2.718277
+    2.00     7.389056     7.386612     7.374603     7.386505
+    3.00    20.085537    20.078232    20.046249    20.077927
+    4.00    54.598150    54.552551    54.491364    54.551727
+    5.00   148.413159   148.283447   148.122971   148.281189
+
+========================================
+Test Complete!
+========================================
+
+Implementation Notes:
+All algorithms use PURE FIXED-POINT interfaces:
+
+CMSIS-NN: cmsis_nn_exp_q524(int32_t x_q524)
+  - Input: Q5.24 fixed-point (x * 2^24)
+  - Output: Q16.16 fixed-point (result / 2^16)
+  - No floating-point operations in core algorithm
+
+CORDIC: cordic_exp_q24(int32_t x_q24)
+  - Input: Q24 fixed-point (x * 2^24)
+  - Output: Q16.16 fixed-point (result / 2^16)
+  - Uses shift-add operations only
+
+Haetae: haetae_exp_q16(int32_t x_q16)
+  - Input: Q16.16 fixed-point (x * 2^16)
+  - Output: Q16.16 fixed-point (result / 2^16)
+  - Taylor expansion with LUT
+
+Cycle counts are estimated for ARM Cortex-M4.
+Reference values are pre-computed on PC with high precision.
