@@ -2,7 +2,7 @@
 #define CMSIS_NN_EXP_H
 
 #include "common.h"
-
+1
 #define NN_Q31_MAX 0x7FFFFFFF
 #define NN_Q31_MIN (-0x7FFFFFFF - 1)
 
